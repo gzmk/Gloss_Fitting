@@ -1,0 +1,2 @@
+ro_s ro_d lightColor
+1 2 3
