@@ -1,0 +1,11 @@
+Camera settings:
+ISO = 100
+Shutter speed = 1"
+F5
+18mm, manual focus (rotate all the way to the left)
+
+Box dimensions:
+x=24cm
+y=26.5cm
+z=17cm
+

@@ -1,2 +1,2 @@
-ro_s ro_d lightColor
-1 2 3
+ro_s	ro_d	lightColor	
+0.56	0.56	0.56	

@@ -13,12 +13,12 @@ Generic {
 	Material-material:material:anisoward
     Material-material:alphaU.float = 0.1
     Material-material:alphaV.float = 0.1
-	% Material-material:diffuseReflectance.spectrum = (ro_d)
-    % Material-material:specularReflectance.spectrum = (ro_s)
+	Material-material:diffuseReflectance.spectrum = (ro_d)
+    Material-material:specularReflectance.spectrum = (ro_s)
     % Material-material:diffuseReflectance.spectrum = 300:0.1 800:0.1
     % Material-material:specularReflectance.spectrum = 300:1.0 800:1.0
-    Material-material:diffuseReflectance.spectrum = 0.56
-    Material-material:specularReflectance.spectrum = 1
+    % Material-material:diffuseReflectance.spectrum = 0.56
+    % Material-material:specularReflectance.spectrum = 0.56
 
 }
 
@@ -26,10 +26,10 @@ Generic {
 % lights
 Generic {
 	Point-light:light:point
-	% Point-light:intensity.spectrum = (lightColor)
+	Point-light:intensity.spectrum = (lightColor)
     % Point-light:intensity.spectrum = D65.spd
     % Point-light:intensity.spectrum = 300:0.5 800:0.5
-    Point-light:intensity.spectrum = 0.56
+    % Point-light:intensity.spectrum = 0.56
 
 }
 
