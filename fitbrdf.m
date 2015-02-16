@@ -2,5 +2,5 @@
 % Params for fminsearch scalexyz, position of the sphere, ro_s, ro_d, light
 % Pass the function handle to fminsearch:
 
-start_params = [0.56; 0.56; 0.56];
-[var,fval, exitflag] = fminsearch(@(var) renderIm(var),start_params,optimset('MaxIter',10));
+start_params = [0.5; 0.5; 0.1; 0; 0; 1];
+[var,fval,exitflag, output] = fminsearch(@(var) renderIm(var),start_params);

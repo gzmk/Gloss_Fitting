@@ -1,2 +1,2 @@
-ro_s	ro_d	lightColor	
-0.56	0.56	0.56	
+ro_s	ro_d	alphau	locx	locy	scalex
+0.5	0.5	0.1	0	0	1
