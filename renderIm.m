@@ -4,6 +4,10 @@
 % the conditions file at each iteration - take a look at this
 function costIm = renderIm(var)
 
+if (var(1)+var(2) > 1) % check if there is any negative number in input variable
+    costIm = 1e+10;    % give a big value to the result
+    return;           % return to fminsearch - do not execute the rest of the code
+end
 % titles of the parameters in the Conditions File
 % param1 = 'ro_s'; 
 % param2 = 'ro_d';
@@ -14,6 +18,8 @@ function costIm = renderIm(var)
 % param5 = 'locx';
 % param6 = 'locy';
 % param7 = 'scalex';
+
+% sprintf('The new variables are: ro_s: %f', var(1))
 
 sprintf('The new variables are: ro_s: %f ro_d: %f alphau: %f', var(1), var(2), var(3))
 sprintf('The new variables are: locx: %f locy: %f scalex: %f', var(4), var(5), var(6))
@@ -53,14 +59,15 @@ sprintf('The new variables are: locx: %f locy: %f scalex: %f', var(4), var(5), v
 % fclose(fidOut);
 
 %% trying to write to file in tabular form
-% var = [0.1; 0.56; 0.56; 0.1; 0; 0; 1];
+% var = [0.05; 0.1; 0.2; 0; 0; 2.2];
 ro_s = var(1);
 ro_d = var(2);
 alphau = var(3); % alphau and alphav should always be the same value for isotropic brdf
 locx = var(4);
 locy = var(5);
 scalex = var(6);
-T = table(ro_s,ro_d,alphau,locx,locy,scalex);
+% ,ro_d,alphau,locx,locy
+T = table(ro_s,ro_d, alphau, locx, locy, scalex);
 writetable(T,'/Local/Users/gizem/Documents/Research/GlossBump/Gloss_Level_Sphere_Photos/test_sphereConditions.txt','Delimiter','\t')
 %% Rendering bit
 
@@ -109,20 +116,29 @@ montageFile = [montageName '.png'];
 % load the monochromatic image and display it
 imPath = ['/Local/Users/gizem/Documents/Research/GlossBump/Gloss_Level_Sphere_Photos/', hints.recipeName, '/renderings/Mitsuba/test_sphere-001.mat']
 load(imPath, 'multispectralImage');
-im2 = im2uint16(multispectralImage);
+im2 = multispectralImage;
 imshow(im2)
 
+sprintf('AAAAAAA')
+imwrite(im2, '/Local/Users/gizem/Documents/Research/GlossBump/Gloss_Level_Sphere_Photos/im2.pgm','pgm');
 %% calculate the ssd (error) between two images
 % dcraw command: -4 -d -v -w -b 3.0 DSC_0111_70gloss.pgm
-gloss70 = imread('DSC_0111_70gloss.pgm');
+% -b 3.0 makes it 3 times brighter
+gloss40 = imread('DSC_0102_40gloss.pgm','pgm');
 black = imread('DSC_0112.pgm')';
-imdiff = gloss70-black;
-im1 = imresize(imdiff, [800,600]);
+imdiff = gloss40-black;
+imsmall = imresize(imdiff, [800,600]);
+image1 = double(imsmall)/65535;
+
+renderedIm = imread('im2.pgm','pgm');
+image2 = double(renderedIm)/255;
+
 
 %ssd = sum(sum(im1(:,:)-im2(:,:).^2));
 
 % ssd = 0
-ssd = sum(sum(im1(:,:)-im2(:,:).^2));
+diff = image1-image2;
+ssd = sum(sum(diff.^2));
 % for i = 1:hints.imageHeight
 %     for j = 1:hints.imageWidth
 %         diff = gloss70(i,j) - im2(i,j);

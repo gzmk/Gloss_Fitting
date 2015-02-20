@@ -3,7 +3,7 @@ Collada {
     Camera:scale|sid=scale = -1 1 1
     % move the camera for each condition
     % Camera:translate|sid=location = (xCam) (yCam) 0
-    % Camera:translate|sid=location = (xCam) (yCam) 3
+    Camera:translate|sid=location = 0 0 0.1 
     % Camera:rotate|sid=rotationZ = 0 0 1 (zRotCam)
     % Camera:rotate|sid=rotationY = 0 1 0 0
     % Camera:rotate|sid=rotationX = 1 0 0 80
@@ -24,6 +24,8 @@ Generic {
     % Material-material:specularReflectance.spectrum = 300:1.0 800:1.0
     % Material-material:diffuseReflectance.spectrum = 0.56
     % Material-material:specularReflectance.spectrum = 0.56
+    % Material-material:diffuseAmount.float = (ro_d)
+    % Material-material:specularAmount.float = (ro_s)
 
 }
 
