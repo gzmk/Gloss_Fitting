@@ -1,0 +1,27 @@
+# All the image files
+*.pgm
+*.NEF
+*.JPG
+*.png
+*.exr
+
+# powerpoint files
+*.pptx
+
+# xml files
+*.xml
+
+# Data files
+*.mat
+
+# 3D modeling related files
+*.dae
+*.blend
+*.blend1
+
+# log files
+*.log
+
+# serialized
+*.serialized
+
