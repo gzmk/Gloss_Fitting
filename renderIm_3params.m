@@ -113,20 +113,21 @@ imwrite(im2, '/Local/Users/gizem/Documents/Research/GlossBump/Gloss_Level_Sphere
 % dcraw command: -4 -d -v -w -b 3.0 DSC_0111_70gloss.pgm
 % -b 3.0 makes it 3 times brighter
 % gloss40 = imread('registered_photo.pgm','pgm');
-gloss = imread('registered40.pgm','pgm'); % turn this into a variable
-photo = double(gloss)/255;
+% gloss = imread('registered40.pgm','pgm'); % turn this into a variable
+load('registered_imgs/registered40.mat')
+photo = renderRegisteredAdjusted;
 
-black = imread('DSC_0112.pgm')';
-imblack = imresize(black, [1005,668]);
-imblack2 = double(imblack)/65535;
-image1 = photo-imblack2;
+% black = imread('DSC_0112.pgm')';
+% imblack = imresize(black, [1005,668]);
+% imblack2 = double(imblack)/65535;
+% image1 = photo-imblack2;
 
-image2 = multispectralImage/255;
+renderedIm = multispectralImage;
 % renderedIm = imread('im2.pgm','pgm');
 % image2 = double(renderedIm)/255;
 
 
-diff = image1-image2;
+diff = photo-renderedIm;
 costIm = sum(sum(diff.^2))
 
 cost_arr = [cost_arr;costIm];

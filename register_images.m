@@ -30,6 +30,7 @@ photo = imresize(rescaledIm, [1005,668]);
 sample_name = ['sample_render', int2str(percent_gloss),'.mat'];
 imname = strcat('/Local/Users/gizem/Documents/Research/GlossBump/Gloss_Level_Sphere_Photos/sample_renders/', sample_name);
 load(imname, 'imtosave');
+renderedIm = imtosave;
 % image2 = imread(rendername,'pgm');
 % renderedIm = double(image2)/255;
 
@@ -57,11 +58,13 @@ title('Unregistered');
 optimizer.InitialRadius = optimizer.InitialRadius/12;
 optimizer.MaximumIterations = 1000;
 
-renderRegisteredAdjusted = imregister(photo, renderedIm, 'affine', optimizer, metric);
+renderRegisteredAdjusted = imregister(photo, renderedIm, 'similarity', optimizer, metric);
 figure, imshowpair(renderRegisteredAdjusted, renderedIm);
 title('Adjusted InitialRadius');
 
-registered_photoname = ['registered', int2str(percent_gloss),'.pgm'];
-imname = ['/Local/Users/gizem/Documents/Research/GlossBump/Gloss_Level_Sphere_Photos/', registered_photoname];
-imwrite(renderRegisteredAdjusted, imname,'pgm');
+registered_photoname = ['registered', int2str(percent_gloss),'.mat'];
+imname = strcat('/Local/Users/gizem/Documents/Research/GlossBump/Gloss_Level_Sphere_Photos/registered_imgs/', registered_photoname);
+save(imname, 'renderRegisteredAdjusted');
 register_result = renderRegisteredAdjusted;
+
+
