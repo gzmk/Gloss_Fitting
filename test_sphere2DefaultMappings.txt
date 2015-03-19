@@ -1,0 +1,37 @@
+% flip the camera handedness to match Blender-Collada output to Mitsuba and PBRT
+Collada {
+    Camera:scale|sid=scale = -1 1 1
+    % move the camera for each condition
+    % Camera:translate|sid=location = (xCam) (yCam) 3
+    % Camera:rotate|sid=rotationZ = 0 0 1 (zRotCam)
+    % Camera:rotate|sid=rotationY = 0 1 0 0
+    % Camera:rotate|sid=rotationX = 1 0 0 80
+}
+
+% materials
+Generic {
+	Material-material:material:anisoward
+    Material-material:alphaU.float = 0.1
+    Material-material:alphaV.float = 0.1
+	% Material-material:diffuseReflectance.spectrum = (ro_d)
+    % Material-material:specularReflectance.spectrum = (ro_s)
+    Material-material:diffuseReflectance.spectrum = 300:0.1 800:0.1
+    Material-material:specularReflectance.spectrum = 300:1.0 800:1.0
+
+}
+
+
+% lights
+Generic {
+	Point-light:light:point
+	% Point-light:intensity.spectrum = (lightColor)
+    Point-light:intensity.spectrum = D65.spd
+    % Point-light:intensity.spectrum = 300:0.5 800:0.5
+
+}
+
+Mitsuba {
+    % use the path integrator with lots of samples
+    integrator:integrator:path
+    Camera-camera_sampler:sampleCount.integer = 32
+}

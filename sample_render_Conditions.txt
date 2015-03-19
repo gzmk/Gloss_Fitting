@@ -1,0 +1,2 @@
+ro_s	ro_d	alphau
+0.4	0.6	0.2
