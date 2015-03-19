@@ -3,7 +3,7 @@
 % Author @gizem
 % based on the example from: http://www.mathworks.com/help/images/examples/registering-multimodal-mri-images.html
 % 2/25/2015
-function register_result = register_images(photoname, rendername, percent_gloss)
+function register_result = register_images(percent_gloss)
 
 % example function call:
 % register_result = register_images('DSC_0102_40gloss.pgm', 'sample_render.pgm', 40)
@@ -18,15 +18,20 @@ function register_result = register_images(photoname, rendername, percent_gloss)
 % the photos are linearized by dcraw -4 -d -v -w -b 2.0
 % so they were made twice as bright
 
-% load images, adjust image types so they match 
+% load images, adjust image types so they match
+pgm_name = [int2str(percent_gloss),'gloss.pgm'];
+photoname = strcat('/Local/Users/gizem/Documents/Research/GlossBump/Gloss_Level_Sphere_Photos/pgms/',pgm_name);
 glossIm = imread(photoname,'pgm');
 % black = imread('DSC_0112.pgm')';
 % imdiff = gloss-black;
 rescaledIm = double(glossIm)/65535;
 photo = imresize(rescaledIm, [1005,668]);
 
-image2 = imread(rendername,'pgm');
-renderedIm = double(image2)/255;
+sample_name = ['sample_render', int2str(percent_gloss),'.mat'];
+imname = strcat('/Local/Users/gizem/Documents/Research/GlossBump/Gloss_Level_Sphere_Photos/sample_renders/', sample_name);
+load(imname, 'imtosave');
+% image2 = imread(rendername,'pgm');
+% renderedIm = double(image2)/255;
 
 %% 
 figure, imshowpair(photo, renderedIm, 'montage')
