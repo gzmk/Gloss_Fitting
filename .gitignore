@@ -25,3 +25,6 @@
 # serialized
 *.serialized
 
+#dcraw related
+*.c
+dcraw
