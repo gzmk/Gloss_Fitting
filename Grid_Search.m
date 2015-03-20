@@ -72,7 +72,7 @@ while (bGoOn > 0) && (abs(BestF - LastBestF) > Eps_Fx) && (Iters <= MaxIter)
 
   XCenter = XBest;
   DeltaX = DeltaX ./ NumDiv;
-  XLo = XCenter - DeltaX .* NumDiv / 2;
+  XLo = XCenter - DeltaX .* NumDiv / 2
   XHi = XCenter + DeltaX .* NumDiv / 2;
   X = XLo; % set initial X
 

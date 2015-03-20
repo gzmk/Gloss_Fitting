@@ -34,15 +34,15 @@ end
 %% to write new conditions file with replaced params
 % write to file in tabular form
 % var = XBest; % this is to re-render the best fits
-var = [0.0760; 0.2168; 0.0472]; % this is for test
+% var = [0.0760; 0.2168; 0.0472]; % this is for test
 
 ro_s = ['300:',num2str(var(1)/(var(1)+var(2))),' 800:',num2str(var(1)/(var(1)+var(2)))];
 ro_d = ['300:', num2str(var(2)/(var(1)+var(2))), ' 800:', num2str(var(2)/(var(1)+var(2)))];
 alphau = var(3); % alphau and alphav should always be the same value for isotropic brdf
-light = ['300:', num2str(var(1)+var(2)), ' 800:',num2str(var(1)+var(2))]
-mycell = {ro_s, ro_d, alphau,light}
+light = ['300:', num2str(var(1)+var(2)), ' 800:',num2str(var(1)+var(2))];
+mycell = {ro_s, ro_d, alphau,light};
 
-T = cell2table(mycell, 'VariableNames', {'ro_s' 'ro_d' 'alphau' 'light'})
+T = cell2table(mycell, 'VariableNames', {'ro_s' 'ro_d' 'alphau' 'light'});
 writetable(T,'/Local/Users/gizem/Documents/Research/GlossBump/Gloss_Level_Sphere_Photos/sphere_3params_Conditions.txt','Delimiter','\t')
 %% Rendering bit
 

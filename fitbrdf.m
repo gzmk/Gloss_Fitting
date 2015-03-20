@@ -23,7 +23,7 @@ MinDeltaX = [1e-5 1e-5 1e-5 1e-5 1e-5 1e-5];
 
 % init parameters
 % start_params = [0.05; 0.1; 0.2];
-LB = [0.0; 0.0; 0.0];
+LB = [0.001; 0.001; 0.001];
 UB = [1.0; 1.0; 1.0];
 NumDiv = [5 5 5];
 MinDeltaX = [1e-5 1e-5 1e-5];
