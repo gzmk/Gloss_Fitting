@@ -47,14 +47,16 @@ end
 %% to write new conditions file with replaced params
 % write to file in tabular form
 % var = XBest; % this is to re-render the best fits
+var = [0.0760; 0.2168; 0.0472]; % this is for test
 
-% var = [0.0760; 0.2168; 0.0472]; % this is for test
-ro_s = var(1);
-ro_d = var(2);
+ro_s = ['300:',num2str(var(1)),' 800:',num2str(var(1))];
+ro_d = ['300:', num2str(var(2)), ' 800:', num2str(var(2))];
 alphau = var(3); % alphau and alphav should always be the same value for isotropic brdf
+light = ['300:', num2str(var(1)+var(2)), ' 800:',num2str(var(1)+var(2)) ]
+mycell = {ro_s, ro_d, alphau,light}
 
-T = table(ro_s,ro_d, alphau);
-writetable(T,'/Local/Users/gizem/Documents/Research/GlossBump/Gloss_Level_Sphere_Photos/test_sphere_3params_Conditions.txt','Delimiter','\t')
+T = cell2table(mycell, 'VariableNames', {'ro_s' 'ro_d' 'alphau' 'light'})
+writetable(T,'/Local/Users/gizem/Documents/Research/GlossBump/Gloss_Level_Sphere_Photos/sphere_3params_Conditions.txt','Delimiter','\t')
 %% Rendering bit
 
 % Set preferences
@@ -64,8 +66,8 @@ setpref('RenderToolbox3', 'workingFolder', '/Local/Users/gizem/Documents/Researc
 parentSceneFile = 'test_sphere.dae';
 % WriteDefaultMappingsFile(parentSceneFile); % After this step you need to edit the mappings file
 
-conditionsFile = 'test_sphere_3params_Conditions.txt';
-mappingsFile = 'test_sphere_3params_DefaultMappings.txt';
+conditionsFile = 'sphere_3params_Conditions.txt';
+mappingsFile = 'sphere_3params_DefaultMappings.txt';
 
 % Make sure all illuminants are added to the path. 
 addpath(genpath(pwd))
@@ -76,7 +78,7 @@ addpath(genpath(pwd))
 % hints.imageHeight = 6034;
 % hints.imageWidth = 600;% these are for quick rendering
 % hints.imageHeight = 800;
-hints.imageWidth = 668;% these are for quick rendering
+hints.imageWidth = 668;% this is isotropic scaling (orig. size divided by 4)
 hints.imageHeight = 1005;
 hints.renderer = 'Mitsuba';
 
@@ -105,10 +107,8 @@ montageFile = [montageName '.png'];
 imPath = ['/Local/Users/gizem/Documents/Research/GlossBump/Gloss_Level_Sphere_Photos/', hints.recipeName, '/renderings/Mitsuba/test_sphere-001.mat']
 load(imPath, 'multispectralImage');
 im2 = multispectralImage;
-imshow(im2/255)
+figure;imshow(im2(:,:,1))
 
-sprintf('AAAAAAA')
-imwrite(im2, '/Local/Users/gizem/Documents/Research/GlossBump/Gloss_Level_Sphere_Photos/im2.pgm','pgm');
 %% calculate the ssd (error) between two images
 % dcraw command: -4 -d -v -w -b 3.0 DSC_0111_70gloss.pgm
 % -b 3.0 makes it 3 times brighter
@@ -122,7 +122,8 @@ photo = renderRegisteredAdjusted;
 % imblack2 = double(imblack)/65535;
 % image1 = photo-imblack2;
 
-renderedIm = multispectralImage;
+renderedIm = multispectralImage(:,:,1);
+
 % renderedIm = imread('im2.pgm','pgm');
 % image2 = double(renderedIm)/255;
 

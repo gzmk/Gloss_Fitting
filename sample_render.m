@@ -33,7 +33,7 @@ figure;imshow(double(glossim)/65535)
 % var = [0.09; 0.2; 0.15]; % for gloss100
 
 ro_s = ['300:',num2str(var(1)),' 800:',num2str(var(1))];
-ro_d = ['300:', num2str(var(2)), ' 800:', num2str(var(1))];
+ro_d = ['300:', num2str(var(2)), ' 800:', num2str(var(2))];
 alphau = var(3); % alphau and alphav should always be the same value for isotropic brdf
 mycell = {ro_s, ro_d, alphau}
 
