@@ -30,3 +30,5 @@ MinDeltaX = [1e-5 1e-5 1e-5];
 
 % grid search
 [XBest,BestF,Iters] = Grid_Search(3, LB', UB', NumDiv, MinDeltaX, 1e-7, 1000, 'renderIm_3params');
+
+

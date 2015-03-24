@@ -31,7 +31,6 @@ Generic {
 	% Point-light:intensity.spectrum = (lightColor)
     % Point-light:intensity.spectrum = D65.spd
     Point-light:intensity.spectrum = (light)
-    % Point-light:intensity.spectrum = (ro_d)+(ro_s)
 
 }
 

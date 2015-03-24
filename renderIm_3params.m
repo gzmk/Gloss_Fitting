@@ -36,10 +36,17 @@ end
 % var = XBest; % this is to re-render the best fits
 % var = [0.0760; 0.2168; 0.0472]; % this is for test
 
-ro_s = ['300:',num2str(var(1)/(var(1)+var(2))),' 800:',num2str(var(1)/(var(1)+var(2)))];
-ro_d = ['300:', num2str(var(2)/(var(1)+var(2))), ' 800:', num2str(var(2)/(var(1)+var(2)))];
-alphau = var(3); % alphau and alphav should always be the same value for isotropic brdf
-light = ['300:', num2str(var(1)+var(2)), ' 800:',num2str(var(1)+var(2))];
+% THIS IS FOR MONOCHROMATIC
+ro_s = var(1)/(var(1)+var(2));
+ro_d = var(2)/(var(1)+var(2));
+alphau = var(3);
+light = (var(1)+var(2));
+
+% THIS IS FOR MULTISPECTRAL RENDERING
+% ro_s = ['300:',num2str(var(1)/(var(1)+var(2))),' 800:',num2str(var(1)/(var(1)+var(2)))];
+% ro_d = ['300:', num2str(var(2)/(var(1)+var(2))), ' 800:', num2str(var(2)/(var(1)+var(2)))];
+% alphau = var(3); % alphau and alphav should always be the same value for isotropic brdf
+% light = ['300:', num2str(var(1)+var(2)), ' 800:',num2str(var(1)+var(2))];
 mycell = {ro_s, ro_d, alphau,light};
 
 T = cell2table(mycell, 'VariableNames', {'ro_s' 'ro_d' 'alphau' 'light'});
@@ -94,28 +101,32 @@ montageFile = [montageName '.png'];
 imPath = ['/Local/Users/gizem/Documents/Research/GlossBump/Gloss_Level_Sphere_Photos/', hints.recipeName, '/renderings/Mitsuba/test_sphere-001.mat']
 load(imPath, 'multispectralImage');
 im2 = multispectralImage;
-figure;imshow(im2(:,:,1))
+% figure;imshow(im2(:,:,1))
 
 %% calculate the ssd (error) between two images
 % dcraw command: -4 -d -v -w -b 3.0 DSC_0111_70gloss.pgm
 % -b 3.0 makes it 3 times brighter
 % gloss40 = imread('registered_photo.pgm','pgm');
 % gloss = imread('registered40.pgm','pgm'); % turn this into a variable
+
+% prepare a mask image for %40
+mask = zeros(1005,668);
+mask(382:574,256:444)=1;
+
 load('registered_imgs/registered40.mat') % make this a variable
 photo = renderRegisteredAdjusted;
+masked_photo = mask.*photo;
 
 % black = imread('DSC_0112.pgm')';
 % imblack = imresize(black, [1005,668]);
 % imblack2 = double(imblack)/65535;
 % image1 = photo-imblack2;
 
-renderedIm = im2(:,:,1);
-
-% renderedIm = imread('im2.pgm','pgm');
-% image2 = double(renderedIm)/255;
+% renderedIm = im2(:,:,1); %for multispectral rendering
+renderedIm = im2;
 
 
-diff = photo-renderedIm;
+diff = masked_photo-renderedIm;
 costIm = sum(sum(diff.^2))
 
 cost_arr = [cost_arr;costIm];
