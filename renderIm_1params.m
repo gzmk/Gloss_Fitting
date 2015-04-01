@@ -2,37 +2,37 @@
 
 % Idea: I might be able to store the params in an array and write them into
 % the conditions file at each iteration - take a look at this
-function costIm = renderIm_3params(var)
+function costIm = renderIm_1params(var)
 
 % check rho_s+rho_d <1, if this is bigger than 1, renderer will scale both.
 % We don't want the renderer to scale as that messes up fminsearch
 % parameters. 
 
-persistent past_params; 
-persistent cost_arr;
-if isempty(past_params) 
-    past_params = []; 
-end
-if isempty(cost_arr)
-    cost_arr = [];
-end
+% persistent past_params; 
+% persistent cost_arr;
+% if isempty(past_params) 
+%     past_params = []; 
+% end
+% if isempty(cost_arr)
+%     cost_arr = [];
+% end
 
 % print the new values of parameters for every fminsearch iteration
 % sprintf('The new variables are: ro_s: %f ro_d: %f alphau: %f', var(1), var(2), var(3))
-sprintf('The new variables are: ro_s: %f ro_d: %f', var(1), var(2))
+% sprintf('The new variables are: ro_s: %f ro_d: %f', var(1), var(2))
 % sprintf('The new variables are: alphau: %f', var(1))
 
 
 % empty = isempty(past_params);
-if ~isempty(past_params)
-    sprintf('BBBBBBB')
-%     idx = find(ismember(past_params,var','rows'))
-    idx = find(ismember(past_params,var,'rows'))
-    if ~isempty(idx)
-        costIm = cost_arr(idx(1));
-        return; 
-    end
-end
+% if ~isempty(past_params)
+%     sprintf('BBBBBBB')
+% %     idx = find(ismember(past_params,var','rows'))
+%     idx = find(ismember(past_params,var,'rows'))
+%     if ~isempty(idx)
+%         costIm = cost_arr(idx(1));
+%         return; 
+%     end
+% end
 
 %% to write new conditions file with replaced params
 % write to file in tabular form
@@ -41,19 +41,15 @@ end
 
 % THIS IS FOR MONOCHROMATIC RENDERING
 
-ro_s = var(1)/(var(1)+var(2));
-ro_d = var(2)/(var(1)+var(2));
-% alphau = var(3);
-alphau = 0.1573;
-light = (var(1)+var(2));
-
 % % This is for fixing rho_s and rho_d and only fitting alpha
-% XBest = [0.0267, 0.1049];
-% ro_s = XBest(1)/(XBest(1)+XBest(2));
-% ro_d = XBest(2)/(XBest(1)+XBest(2));
-% % alphau = var(3);
-% alphau = var(1);
-% light = (XBest(1)+XBest(2));
+fixed1 = getGlobalros;
+fixed2 = getGlobalrod;
+sprintf('Fixed rho_s: %f fixed rho_d: %f', fixed1, fixed2)
+ro_s = fixed1/(fixed1+fixed2);
+ro_d = fixed2/(fixed1+fixed2);
+% alphau = var(3);
+alphau = var(1);
+light = (fixed1+fixed2);
 
 % THIS IS FOR MULTISPECTRAL RENDERING
 % ro_s = ['300:',num2str(var(1)/(var(1)+var(2))),' 800:',num2str(var(1)/(var(1)+var(2)))];
@@ -140,11 +136,11 @@ renderedIm = im2;
 
 
 diff = masked_photo-renderedIm;
-costIm = sum(sum(diff.^2))
+costIm = sum(sum(diff.^2));
 
-cost_arr = [cost_arr;costIm];
-% past_params = [past_params;var'];
-past_params = [past_params;var]; % this for grid search as it takes in row arrays
+% cost_arr = [cost_arr;costIm];
+% % past_params = [past_params;var'];
+% past_params = [past_params;var]; % this for grid search as it takes in row arrays
 
 return;
 
